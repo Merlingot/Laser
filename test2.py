@@ -17,7 +17,7 @@ rc('text', usetex=True)
 ### PARAMETRES -------------------------------------------------------------
 lambda0=850e-9
 doping =0 #[m^-3] Positif pour dopé P, négatif pour dopé N
-delta_n_cm = np.linspace(1.5, 2.5, num=10)*1e18 # [cm-3]
+delta_n_cm = np.linspace(1.5, 4, num=12)*1e18 # [cm-3]
 delta_n = delta_n_cm*1e2**3 #[m-3]
 color = plt.cm.coolwarm(np.linspace(0, 1,len(delta_n)))
 mpl.rcParams['axes.prop_cycle'] = plt.cycler('color', color)
@@ -95,22 +95,6 @@ for i in range(len(n)):
     fc[:,i]=f(E, Efc[i] ,T);
     fv[:,i]=f(E, Efv[i], T)
     labellegend[i] = "{:10.4g} cm-3".format( delta_n[i]*1e-2**3 ) #cm^-3
-
-## Resultats des integrales
-if not isinstance(errE, int):
-    plt.figure()
-    # plt.title('Erreur intégration de fermi-dirac')
-    plt.plot(etaE, errE, '.', etaP, errP, '.')
-    plt.xlabel('$\eta$')
-    plt.ylabel('Erreur')
-    plt.show()
-plt.figure()
-# plt.title('Resultat intégrale de fermi-dirac')
-plt.plot(etaE, fd_etaE, etaP, fd_etaP, '--')
-# plt.plot(eta, fd_eta_polylog, '--')
-plt.ylabel('$\mathcal{F}_{1/2}$')
-plt.xlabel('$\eta$')
-plt.show()
 # --------- fin methode intégrale
 
 
@@ -135,44 +119,10 @@ for i in range(len(n)):
     index = argmax(gamma0[:,i]); gainMaxLoc[i] = index;
     gainMax[i]= gamma0[index, i]
 
-
 # Trouver la courbe du gain max @ 850 nm
 nu0=c/lambda0
 loc_gain850 = np.argmin(absolute(nu[gainMaxLoc] - nu0)) #Index de la courbe de gain max
 gamma850 = gamma0[loc_gain850]
-
-
-# Quasi-niveaux en fonction de n et p
-plt.figure()
-plt.plot(n*1e-2**3, Efc/e, p*1e-2**3, Efv/e)
-plt.xlabel('Densité de porteurs [cm-3]')
-# plt.title(' Quasi niveau en fonction de n pour plage E test')
-plt.ylabel('Quasi niveau de Fermi [eV]')
-plt.legend(['n', 'p'])
-plt.axhline(y=0, linestyle='--', color='black')
-plt.show()
-
-# fc
-plt.figure()
-plt.plot(h*nu/e, fc)
-plt.xlabel('E [Ev]')
-plt.ylabel('$f_c$')
-plt.legend(labellegend)
-plt.show()
-# fv
-plt.figure()
-plt.plot(h*nu/e, fv)
-plt.xlabel('E [Ev]')
-plt.ylabel('$f_v$')
-plt.legend(labellegend)
-plt.show()
-## GRAPHIQUE FERMI DIRAC CONJOINT
-plt.figure()
-plt.xlabel('E [eV]')
-plt.ylabel('$f_g$')
-plt.plot(nu*h/e, fg_vec) #cm-1
-plt.show()
-
 
 ## FIGURE GAIN
 fig=plt.figure()
@@ -185,7 +135,8 @@ plt.ylabel('Gain $\gamma$ [cm$^{-1}$]')
 plt.ylim(bottom=-30)
 plt.show()
 # --------------------------------------------------------------------------
-
+color = plt.cm.coolwarm(np.linspace(0, 1,2))
+mpl.rcParams['axes.prop_cycle'] = plt.cycler('color', color)
 # Parametres alpha et delta n_T -----------------
 # delta_n ou densité de porteurs majoritaires? (seulement important pour dopés)
 def gammaP(deltaN, a, b):
@@ -202,9 +153,6 @@ plt.legend()
 plt.show()
 
 a, deltanT =  popt[0], popt[1]/popt[0]
-
-a
-deltanT
 
 
 ## COURBE I-V ----------------------
