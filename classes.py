@@ -51,7 +51,7 @@ class Laser:
         self.alpha_m1 = 1/(2*self.l)*log(1/self.R1)
         self.alpha_m2 = 1/(2*self.l)*log(1/self.R2)
         self.alpha_r = self.alpha_m1 + self.alpha_m2 + self.alpha_int
-        self.eta_ext = self.eta*self.alpha_m2/self.alpha_r*1.5
+        self.eta_ext = self.eta*self.alpha_m2/self.alpha_r
 
         # Facteur de confinement
         G0 = 2*pi**2*(self.n_GaAs**2 - self.n_AlGaAs**2)*(self.d/850e-9)**2
@@ -62,7 +62,7 @@ class Laser:
         self.theta_perp = self.lambda0/self.d #perpendiculaire
 
         # Temps de vie photon :
-        self.tau_p=self.n_GaAs/(c*self.alpha_r)*0.9
+        self.tau_p=self.n_GaAs/(c*self.alpha_r)
         self.tau_m=self.n_GaAs/((self.alpha_m1+self.alpha_m2)*c)
 
         # Transparency @ T=25 C:
