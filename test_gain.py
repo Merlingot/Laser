@@ -12,7 +12,7 @@ import matplotlib as mpl
 from matplotlib import rc
 rc('text', usetex=True)
 
-
+T=300
 
 ### PARAMETRES -------------------------------------------------------------
 lambda0=850e-9
@@ -25,6 +25,7 @@ mpl.rcParams['axes.prop_cycle'] = plt.cycler('color', color)
 l=Laser()
 m=Materiau(ratio_mc=0.07, ratio_mv=0.5, Eg0=1.519, A=5.4e-4, B=204, T=T, doping=doping)
 ### PARAMETRES -------------------------------------------------------------
+
 
 # ELECTroNNNNNNNS -------------------------------------------------------------
 ## Calcul des populations a l'equilibre
@@ -130,7 +131,7 @@ for i in range(len(n)):
     fv[:,i]=f(E1,Efv[i], T=T)
     fg_vec[:,i]=fc[:,i]-fv[:,i]
     # Gain
-    gamma0[:,i] = real(((c/nu)/l.n_ref)**2/(8*pi*l.tau_r)*rho_j*fg_vec[:,i])*1e-1
+    gamma0[:,i] = real(((c/nu)/l.n_GaAs)**2/(8*pi*l.tau_r)*rho_j*fg_vec[:,i])
     # Calcul du gain max
     index = argmax(gamma0[:,i]); gainMaxLoc[i] = index;
     gainMax[i]= gamma0[index, i]
@@ -202,25 +203,6 @@ plt.legend()
 plt.show()
 
 a, deltanT =  popt[0], popt[1]/popt[0]
-
-a
-deltanT
-
-
-## COURBE I-V ----------------------
-#Calcul des paramètres de la courbe
-Id = 1e-3
-Vf = 2.2
-I0 = Id/(exp(Vf*e/kb/T)-1)
-
-Voltage = linspace(2.2, 2.45)
-Idiode = I0*(exp(e*Voltage/(kb*T))-1)
-
-plt.plot()
-plt.ylabel('Courant [A]')
-plt.xlabel('Voltage [V]')
-plt.plot(Voltage, Idiode)
-plt.show()
 
 
 

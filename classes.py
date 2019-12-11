@@ -1,12 +1,5 @@
 from numpy import pi, exp, log
-hbar = 1.05457180014e-34
-c=3e8
-kb = 1.38064852e-23
-me = 9.10938356e-31
-h=hbar*2*pi
-e=1.60218e-19
-m0=9.109e-31 #kg (Free electron mass)
-
+from const import *
 
 
 class Materiau:
@@ -30,7 +23,7 @@ class Materiau:
         self.Eg=(self.Eg0 - (self.A*e*temp**2)/(self.B+temp))
 
 class Laser:
-    def __init__(self):
+    def __init__(self, caca, pipi):
         # Parametres de l'enonce
         self.tau=2e-9 # [s]Temps recombinaison e-trous
         self.eta = 0.99 # Efficacite quantique interne
@@ -39,22 +32,47 @@ class Laser:
         self.nu0=c/self.lambda0
         self.R1=0.99 #Reflectivite du mirroir R1
         self.beta=1e-4 #Facteur d'emission spontanee
-        self.alpha_int=10/1e-2 #[m-1] Pertes internes
-        self.n_GaAs=3.67
-        self.n_AlGaAs=3.4117 #À vérifier
+        self.alpha_int=10*1e2 #[m-1] Pertes internes
+        self.n_GaAs=3.655
+        self.n_AlGaAs=3.3620
         self.R2=((self.n_GaAs-1)/(self.n_GaAs+1))**2
-        #Dimensions
-        self.d=1e-7 #llongueur
-        self.w=1e-7 #largeur
-        self.l=0.2e-6 #épaisseur
-        self.vol=self.d*self.w*self.l
+        # self.R2=0.8
 
+        #Dimensions
+        # f=0.9
+        self.l=caca#longueur
+        # self.lambda0/(self.n_GaAs)
+        self.w=pipi#largeur
+        self.d=2*1.48e-7
+        self.vol=self.d*self.w*self.l
+        #Intervalle spectral libre
+        self.isl = c/(2*self.l*self.n_GaAs)
         # Efficacité quantique externe
-        alpha_m1 = 1/(2*self.l)*log(1/self.R1)
-        alpha_m2 = 1/(2*self.l)*log(1/self.R2)
-        self.alpha_r = alpha_m1 + alpha_m2 + self.alpha_int
-        self.eta_ext = self.eta*alpha_m2/self.alpha_r
+        self.alpha_m1 = 1/(2*self.l)*log(1/self.R1)
+        self.alpha_m2 = 1/(2*self.l)*log(1/self.R2)
+        self.alpha_r = self.alpha_m1 + self.alpha_m2 + self.alpha_int
+        self.eta_ext = self.eta*self.alpha_m2/self.alpha_r*1.5
 
         # Facteur de confinement
-        G0 = 2*pi**2*(self.n_GaAs**2 - self.n_AlGaAs**2)*(self.l/850e-9)**2
-        self.Gamma0=G0/(1+G0)
+        G0 = 2*pi**2*(self.n_GaAs**2 - self.n_AlGaAs**2)*(self.d/850e-9)**2
+        self.Gamma=G0/(1+G0)
+
+        # Angle de divergence
+        self.theta_par = self.lambda0/self.w #parallèle
+        self.theta_perp = self.lambda0/self.d #perpendiculaire
+
+        # Temps de vie photon :
+        self.tau_p=self.n_GaAs/(c*self.alpha_r)*0.9
+        self.tau_m=self.n_GaAs/((self.alpha_m1+self.alpha_m2)*c)
+
+        # Transparency @ T=25 C:
+        self.B=None
+        self.delta_n_tr=None
+
+        # Threshold @ T=25C
+        self.I_th = None
+        self.delta_n_th=None
+        self.gamma_th=None
+
+        # Efficacité de pente:
+        self.eff_pente=None
