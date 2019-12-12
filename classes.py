@@ -43,7 +43,7 @@ class Laser:
         self.l=caca#longueur
         # self.lambda0/(self.n_GaAs)
         self.w=pipi#largeur
-        self.d=2*1.48e-7
+        self.d=2*1.45e-7
         self.vol=self.d*self.w*self.l
         #Intervalle spectral libre
         self.isl = c/(2*self.l*self.n_GaAs)

@@ -88,7 +88,7 @@ def calcul_gain(delta_n, laser, mat, T, vis=False, leg=None, loc850=None):
 
     ## FIGURE GAIN
     if vis:
-        color = plt.cm.cool(np.linspace(0, 1,len(delta_n)))
+        color = plt.cm.winter(np.linspace(0, 1,len(delta_n)))
         mpl.rcParams['axes.prop_cycle'] = plt.cycler('color', color)
         fig=plt.figure()
         if loc850:
