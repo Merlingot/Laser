@@ -88,7 +88,7 @@ def calcul_gain(delta_n, laser, mat, T, vis=False, leg=None, loc850=None):
 
     ## FIGURE GAIN
     if vis:
-        color = plt.cm.winter(np.linspace(0, 1,len(delta_n)))
+        color = plt.cm.cool(np.linspace(0, 1,len(delta_n)))
         mpl.rcParams['axes.prop_cycle'] = plt.cycler('color', color)
         fig=plt.figure()
         if loc850:
@@ -105,7 +105,7 @@ def calcul_gain(delta_n, laser, mat, T, vis=False, leg=None, loc850=None):
         plt.xlabel('Énergie [eV]')
         plt.ylabel('Gain $\gamma$ [cm$^{-1}$]')
         plt.ylim(bottom=-30)
-        # plt.savefig('fig/gain.eps', format='eps')
+        plt.savefig('fig/gain.eps', format='eps')
         plt.show()
         plt.close()
 
@@ -119,14 +119,14 @@ def injection(I, laser):
     return laser.eta*I*laser.tau/(e*laser.vol)
 
 
-def penis(vec_I, I150, laser, mat, T):
+def calcul_du_gain(vec_I, I150, laser, mat, T):
     #Fait juste calculer le gain
     loc=find_nearest(vec_I, I150)
     delta_n = injection(vec_I, laser)
     labellegend=[None]*len(vec_I)
     for i in range(len(vec_I)):
         labellegend[i] = "{:10.4g} mA".format( vec_I[i]*1e3 ) #mA
-    gainMax, gainMaxLoc, gamma0, nu  = calcul_gain(delta_n, laser, mat, T, vis=True, leg=labellegend, loc850=loc)
+    gainMax, gainMaxLoc, gamma0, nu  = calcul_gain(delta_n, laser, mat, T, vis=False,  leg=labellegend, loc850=loc)
 
     return gainMax
 

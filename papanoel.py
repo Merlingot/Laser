@@ -1,4 +1,3 @@
-
 import numpy as np
 from numpy import sqrt, exp, linspace, trapz, absolute, argmin, argmax, zeros, real, log
 from numpy import pi

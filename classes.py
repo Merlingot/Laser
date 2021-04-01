@@ -23,7 +23,7 @@ class Materiau:
         self.Eg=(self.Eg0 - (self.A*e*temp**2)/(self.B+temp))
 
 class Laser:
-    def __init__(self, caca, pipi):
+    def __init__(self, longueur, largeur):
         # Parametres de l'enonce
         self.tau=2e-9 # [s]Temps recombinaison e-trous
         self.eta = 0.99 # Efficacite quantique interne
@@ -40,9 +40,9 @@ class Laser:
 
         #Dimensions
         # f=0.9
-        self.l=caca#longueur
+        self.l=longueur#longueur
         # self.lambda0/(self.n_GaAs)
-        self.w=pipi#largeur
+        self.w=largeur#largeur
         self.d=2*1.45e-7
         self.vol=self.d*self.w*self.l
         #Intervalle spectral libre

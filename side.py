@@ -2,6 +2,7 @@ from numpy import linspace, exp
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 from const import *
+import numpy as np
 
 # COURBE I-V ----------------------
 Id = 1e-3; Vf = 2.2; I0 = Id/(exp(Vf*e/kb/temperature)-1)
